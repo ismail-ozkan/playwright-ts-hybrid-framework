@@ -1,0 +1,24 @@
+{
+  "name": "nevita_playwright_ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "tests": "playwright test",
+    "test:specific": "playwright test ./tests/**/ApiTestWithObjects.spec.ts",
+    "report": "playwright show-report",
+    "test:tag": "playwright test --grep @smoke"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^22.10.1",
+    "prettier": "3.4.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
