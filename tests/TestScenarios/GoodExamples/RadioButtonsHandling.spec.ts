@@ -1,6 +1,6 @@
-const { test, expect } = require('@playwright/test');
+const {test, expect} = require('@playwright/test');
 
-test('handle input box', async ({ page }) => {
+test('handle input box', async ({page}) => {
     await page.goto('https://example.com'); // Uygulamanın URL'si
     const inputLocator = page.locator('#name'); // Input kutusunun locator'ı (ID ile)
 
@@ -17,7 +17,7 @@ test('handle input box', async ({ page }) => {
     await expect(inputLocator).toHaveValue('John Doe');
 });
 
-test('handle radio buttons', async ({ page }) => {
+test('handle radio buttons', async ({page}) => {
     await page.goto('https://example.com'); // Uygulamanın URL'si
     const maleRadioButton = page.locator('input[type="radio"][value="male"]');
 

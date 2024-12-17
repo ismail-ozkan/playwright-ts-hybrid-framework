@@ -27,7 +27,7 @@ export class EmployeesPage extends HomePage {
         this.nameInputBox = page.locator('.MuiInputBase-input').nth(0);
         this.titleDropdown = page.locator('.MuiInputBase-input').nth(1);
         this.authorityDropdown = page.locator('.MuiInputBase-input').nth(2);
-        this. emailInputBox= page.locator('.MuiInputBase-input').nth(3);
+        this.emailInputBox = page.locator('.MuiInputBase-input').nth(3);
         this.countryCodeDropdown = page.locator('.selected-flag');
         this.phoneInputBox = page.locator('[type="tel"]');
         this.countryCodeSearchBox = page.locator('[type="search"]');

@@ -71,7 +71,6 @@ test('Agency Çalışan Ekleme', async ({page}) => {
     expect(page.url()).toBe(employeesPage.pageUrl);
 
 
-
     /*
 
         // We can directly relocate this api request to api utility file and call it from there.
