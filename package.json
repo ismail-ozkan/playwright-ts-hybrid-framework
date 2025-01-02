@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "tests": "playwright test",
+    "debug-only": "playwright test --debug",
     "test:specific": "playwright test ./tests/**/ApiTestWithObjects.spec.ts",
     "report": "playwright show-report",
     "test:tag": "playwright test --grep @smoke"
