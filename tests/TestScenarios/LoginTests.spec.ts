@@ -23,7 +23,7 @@ test.describe("LoginPage test scenarios", () => {
         await page.waitForTimeout(10);
     });
 
-    test.only('Other Roles User Login Tests', async ({page}) => {
+    test('Other Roles User Login Tests', async ({page}) => {
         await page.goto(`${loginPage.pageUrl}`);
         const users = [
             {

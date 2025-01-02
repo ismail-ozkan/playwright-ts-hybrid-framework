@@ -73,6 +73,7 @@ export class BrowserUtility {
         return variable;
     }
 
+    // TODO create a api utilities and move it there
     static async getUserToken(userRole: string) {
 
         console.log(this.getEnvVariable(`${userRole}Email`))
@@ -102,5 +103,123 @@ export class BrowserUtility {
         throw new Error(`Failed to get token: HTTP error code: ${response.status}`);
     }
 
+    // New Methods TODO these methods should be used to verify that they're working properly.
+    /**
+     * Switches to a new window and verifies the URL and title.
+     * @param page The Playwright Page object.
+     * @param expectedInUrl The expected substring in the URL.
+     * @param expectedInTitle The expected substring in the title.
+     */
+    static async switchWindowAndVerify(page: Page, expectedInUrl: string, expectedInTitle: string) {
+        const allPages = await page.context().pages();
+        for (const newPage of allPages) {
+            if (newPage !== page) {
+                await newPage.bringToFront();
+                const currentUrl = newPage.url();
+                console.log("Current URL: " + currentUrl);
+                if (currentUrl.includes(expectedInUrl)) {
+                    const actualTitle = await newPage.title();
+                    expect(actualTitle).toContain(expectedInTitle);
+                    return;
+                }
+            }
+        }
+        throw new Error(`No window found with URL containing "${expectedInUrl}"`);
+    }
+
+    /**
+     * Verifies if the actual title matches the expected title.
+     * @param page The Playwright Page object.
+     * @param expectedTitle The expected title.
+     */
+    static async verifyTitle(page: Page, expectedTitle: string) {
+        const actualTitle = await page.title();
+        expect(actualTitle).toBe(expectedTitle);
+    }
+
+    /**
+     * Verifies if the current URL contains the expected substring.
+     * @param page The Playwright Page object.
+     * @param expectedInURL The expected substring in the URL.
+     */
+    static async verifyURLContains(page: Page, expectedInURL: string) {
+        const currentUrl = page.url();
+        expect(currentUrl).toContain(expectedInURL);
+    }
+
+    /**
+     * Retrieves dropdown options as strings from a locator.
+     * @param locator The Playwright Locator for the dropdown element.
+     * @returns A promise resolving to an array of option texts.
+     */
+    static async dropdownOptionsAsString(locator: Locator): Promise<string[]> {
+        const options = await locator.locator('option').allTextContents();
+        return options;
+    }
+
+    /**
+     * Clicks a radio button based on its value attribute.
+     * @param locators The array of Locator objects for radio buttons.
+     * @param attributeValue The value of the radio button to click.
+     */
+    static async clickRadioButton(locators: Locator[], attributeValue: string) {
+        for (const locator of locators) {
+            const value = await locator.getAttribute('value');
+            if (value?.toLowerCase() === attributeValue.toLowerCase()) {
+                await locator.click();
+                return;
+            }
+        }
+        throw new Error(`Radio button with value "${attributeValue}" not found`);
+    }
+
+    /**
+     * Waits for an element to be visible on the page.
+     * @param locator The Playwright Locator object to wait for.
+     * @param timeout The timeout in milliseconds (default is 5000).
+     */
+    static async waitForVisibility(locator: Locator, timeout: number = 5000): Promise<void> {
+        await locator.waitFor({ state: 'visible', timeout });
+    }
+
+    /**
+     * Verifies whether an element is displayed on the page.
+     * @param locator The Playwright Locator object to check visibility.
+     */
+    static async verifyElementDisplayed(locator: Locator) {
+        const isVisible = await locator.isVisible();
+        expect(isVisible).toBe(true);
+    }
+
+    /**
+     * Verifies whether an element is not displayed on the page.
+     * @param locator The Playwright Locator object to check visibility.
+     */
+    static async verifyElementNotDisplayed(locator: Locator) {
+        const isVisible = await locator.isVisible();
+        expect(isVisible).toBe(false);
+    }
+
+
+    /**
+     * Scrolls down to an element using JavaScript.
+     * @param page The Playwright Page object.
+     * @param selector The CSS selector of the element to scroll to.
+     */
+    static async scrollToElement(page: Page, selector: string) {
+        await page.evaluate((selector) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                element.scrollIntoView(true);
+            }
+        }, selector);
+    }
+
+    /**
+     * Generates a random number between 1 and 10 billion (10 digits).
+     */
+    static randomNumber(): number {
+        return Math.floor(1000000000 + Math.random() * 9000000000);
+    }
 
 }
